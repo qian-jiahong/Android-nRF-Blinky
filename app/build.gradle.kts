@@ -11,6 +11,27 @@ android {
         applicationId = "no.nordicsemi.android.nrfblinky"
         resourceConfigurations.add("en")
     }
+    signingConfigs {
+        getByName("release") {
+            storeFile = file(System.getenv("KEYSTORE_PATH") ?: "../keystore.jks")
+            storePassword = "android123456"
+            keyAlias = "key0"
+            keyPassword = "android123456"
+        }
+    }
+    buildTypes {
+        getByName("release") {
+            isMinifyEnabled = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                file("proguard-rules.pro")
+            )
+            signingConfig = signingConfigs.getByName("release")
+        }
+        getByName("debug") {
+            signingConfig = signingConfigs.getByName("release")
+        }
+    }
 }
 
 dependencies {
