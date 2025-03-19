@@ -103,6 +103,10 @@ private class BlinkyManagerImpl(
         _ledState.value = state
     }
 
+    override suspend fun buttonGroupClick(buttonIndex: Int) {
+        Timber.i("Button $buttonIndex clicked")
+    }
+
     override fun log(priority: Int, message: String) {
         Timber.log(priority, message)
     }

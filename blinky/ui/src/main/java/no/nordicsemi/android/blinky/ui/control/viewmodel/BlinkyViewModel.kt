@@ -85,6 +85,13 @@ class BlinkyViewModel @Inject constructor(
         }
     }
 
+    fun buttonGroupClick(buttonIndex: Int) {
+        val exceptionHandler = CoroutineExceptionHandler { _, _ -> }
+        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
+            repository.buttonGroupClick(buttonIndex)
+        }
+    }
+
     /**
      * Opens nRF Logger app with the log or Google Play if the app is not installed.
      */

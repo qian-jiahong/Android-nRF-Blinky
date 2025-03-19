@@ -13,6 +13,7 @@ internal fun BlinkyControlView(
     ledState: Boolean,
     buttonState: Boolean,
     onStateChanged: (Boolean) -> Unit,
+    onClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -27,6 +28,10 @@ internal fun BlinkyControlView(
         ButtonControlView(
             state = buttonState
         )
+
+        ButtonGroupView(
+            onClick = { onClick(it) },
+        )
     }
 }
 
@@ -37,6 +42,7 @@ private fun BlinkyControlViewPreview() {
         ledState = true,
         buttonState = true,
         onStateChanged = {},
+        onClick = {},
         modifier = Modifier.padding(16.dp),
     )
 }
