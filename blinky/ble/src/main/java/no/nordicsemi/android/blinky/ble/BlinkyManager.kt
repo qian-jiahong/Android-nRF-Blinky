@@ -34,6 +34,7 @@ private class BlinkyManagerImpl(
 
     private var ledCharacteristic: BluetoothGattCharacteristic? = null
     private var buttonCharacteristic: BluetoothGattCharacteristic? = null
+    private var buttonGroupCharacteristic: BluetoothGattCharacteristic? = null
 
     private val _ledState = MutableStateFlow(false)
     override val ledState = _ledState.asStateFlow()
@@ -105,6 +106,12 @@ private class BlinkyManagerImpl(
 
     override suspend fun buttonGroupClick(buttonIndex: Int) {
         Timber.i("Button $buttonIndex clicked")
+        // Write the value to the characteristic.
+        writeCharacteristic(
+            buttonGroupCharacteristic,
+            byteArrayOf(buttonIndex.toByte()),
+            BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT
+        ).suspend()
     }
 
     override fun log(priority: Int, message: String) {
@@ -118,6 +125,8 @@ private class BlinkyManagerImpl(
     }
 
     override fun isRequiredServiceSupported(gatt: BluetoothGatt): Boolean {
+        var isBlinkySupported = false
+        var isCarkeySupported = false
         // Get the LBS Service from the gatt object.
         gatt.getService(BlinkySpec.BLINKY_SERVICE_UUID)?.apply {
             // Get the LED characteristic.
@@ -135,9 +144,26 @@ private class BlinkyManagerImpl(
             )
 
             // Return true if all required characteristics are supported.
-            return ledCharacteristic != null && buttonCharacteristic != null
+            isBlinkySupported = (ledCharacteristic != null && buttonCharacteristic != null)
         }
-        return false
+        gatt.getService(BlinkySpec.CARKEY_SERVICE_UUID)?.apply {
+            // 获取按钮特征值，用于后续与设备进行通信
+            // 参数一：特征值的UUID，这里使用的是 CarKey 设备的按钮特征值UUID
+            // 参数二：特征值的属性，这里指定为支持写操作
+            // 返回值：获取到的按钮特征值对象，通过它可以进行数据写入操作
+            buttonGroupCharacteristic = getCharacteristic(
+                BlinkySpec.CARKEY_BUTTON_GROUP_CHARACTERISTIC_UUID,
+                BluetoothGattCharacteristic.PROPERTY_WRITE
+            )
+            isCarkeySupported = (buttonGroupCharacteristic != null)
+        }
+        if (!isBlinkySupported) {
+            Timber.w("Blinky service not found on the device.")
+        }
+        if (!isCarkeySupported) {
+            Timber.w("Carkey service not found on the device.")
+        }
+        return (isBlinkySupported || isCarkeySupported)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -168,5 +194,6 @@ private class BlinkyManagerImpl(
     override fun onServicesInvalidated() {
         ledCharacteristic = null
         buttonCharacteristic = null
+        buttonGroupCharacteristic = null
     }
 }

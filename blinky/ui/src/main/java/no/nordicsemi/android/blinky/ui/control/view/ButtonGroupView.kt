@@ -22,7 +22,7 @@ import no.nordicsemi.android.blinky.ui.R
 
 @Composable
 internal fun ButtonGroupView(
-    onClick: (Int) -> Unit,
+    onButtonGroupClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     OutlinedCard(
@@ -34,16 +34,16 @@ internal fun ButtonGroupView(
                 .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Button(onClick = { onClick(0) }) {
+            Button(onClick = { onButtonGroupClick(0) }) {
                 Text(text = "Button 1")
             }
-            Button(onClick = { onClick(1) }) {
+            Button(onClick = { onButtonGroupClick(1) }) {
                 Text(text = "Button 2")
             }
-            Button(onClick = { onClick(2) }) {
+            Button(onClick = { onButtonGroupClick(2) }) {
                 Text(text = "Button 3")
             }
-            Button(onClick = { onClick(3) }) {
+            Button(onClick = { onButtonGroupClick(3) }) {
                 Text(text = "Button 4")
             }
         }
@@ -54,7 +54,7 @@ internal fun ButtonGroupView(
 @Preview
 private fun ButtonGroupViewPreview() {
     ButtonGroupView(
-        onClick = {},
+        onButtonGroupClick = {},
         modifier = Modifier.padding(16.dp),
     )
 }
