@@ -104,6 +104,7 @@ fun ScannerView(
                 val insets = WindowInsets.displayCutout
                     .union(WindowInsets.navigationBars)
                     .only(WindowInsetsSides.Horizontal)
+/*
                 FilterView(
                     config = config,
                     onChanged = { viewModel.setFilter(it) },
@@ -113,6 +114,7 @@ fun ScannerView(
                         .windowInsetsPadding(insets)
                         .padding(horizontal = 16.dp),
                 )
+*/
 
                 PullToRefreshBox(
                     isRefreshing = refreshing,
