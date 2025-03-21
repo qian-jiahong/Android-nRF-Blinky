@@ -19,7 +19,7 @@ dependencyResolutionManagement {
         }
     }
 }
-rootProject.name = "nRF Blinky"
+rootProject.name = "My Car Key"
 
 include(":app")
 include(":scanner")
