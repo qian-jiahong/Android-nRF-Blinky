@@ -67,6 +67,8 @@ internal fun BlinkyScreen(
                         buttonState = buttonState,
                         onStateChanged = { viewModel.turnLed(it) },
                         onButtonGroupClick = { viewModel.buttonGroupClick(it) },
+                        onMainImageClick = {},
+                        mainImageResId = R.drawable.ic_car_main,
                         modifier = Modifier
                             .widthIn(max = 460.dp)
                             .verticalScroll(rememberScrollState())

@@ -13,6 +13,8 @@ internal fun BlinkyControlView(
     ledState: Boolean,
     buttonState: Boolean,
     onStateChanged: (Boolean) -> Unit,
+    onMainImageClick: () -> Unit,
+    mainImageResId: Int,
     onButtonGroupClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -20,6 +22,7 @@ internal fun BlinkyControlView(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
+/*
         LedControlView(
             state = ledState,
             onStateChanged = onStateChanged,
@@ -28,7 +31,11 @@ internal fun BlinkyControlView(
         ButtonControlView(
             state = buttonState
         )
-
+*/
+        MainImageView(
+            onClick = onMainImageClick,
+            imageResId = mainImageResId,
+        )
         ButtonGroupView(
             onButtonGroupClick = onButtonGroupClick,
         )
@@ -42,6 +49,8 @@ private fun BlinkyControlViewPreview() {
         ledState = true,
         buttonState = true,
         onStateChanged = {},
+        onMainImageClick = {},
+        mainImageResId = 0,
         onButtonGroupClick = {},
         modifier = Modifier.padding(16.dp),
     )
